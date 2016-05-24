@@ -1,0 +1,14 @@
+C:\Projelerim\Visual Studio 2005\Projects\ColorPicked\ColorPicked\obj\Debug\ColorPicker.exe
+C:\Projelerim\Visual Studio 2005\Projects\ColorPicked\ColorPicked\obj\Debug\ColorPicker.pdb
+C:\Projelerim\Visual Studio 2005\Projects\ColorPicked\ColorPicked\bin\Debug\ColorPicker.exe
+C:\Projelerim\Visual Studio 2005\Projects\ColorPicked\ColorPicked\bin\Debug\ColorPicker.pdb
+C:\Projelerim\Visual Studio 2005\Projects\ColorPicked\ColorPicked\obj\Debug\ColorPicked.csprojResolveAssemblyReference.cache
+C:\Projelerim\Visual Studio 2005\Projects\ColorPicked\ColorPicked\obj\Debug\ColorPicked.AddColorForm.resources
+C:\Projelerim\Visual Studio 2005\Projects\ColorPicked\ColorPicked\obj\Debug\ColorPicked.ColorList.resources
+C:\Projelerim\Visual Studio 2005\Projects\ColorPicked\ColorPicked\obj\Debug\ColorPicked.Picked.resources
+C:\Projelerim\Visual Studio 2005\Projects\ColorPicked\ColorPicked\obj\Debug\ColorPicked.getGroupNameForm.resources
+C:\Projelerim\Visual Studio 2005\Projects\ColorPicked\ColorPicked\obj\Debug\ColorPicked.Hakkında.resources
+C:\Projelerim\Visual Studio 2005\Projects\ColorPicked\ColorPicked\obj\Debug\ColorPicked.getImage.resources
+C:\Projelerim\Visual Studio 2005\Projects\ColorPicked\ColorPicked\obj\Debug\ColorPicked.Panes.resources
+C:\Projelerim\Visual Studio 2005\Projects\ColorPicked\ColorPicked\obj\Debug\ColorPicked.Properties.Resources.resources
+C:\Projelerim\Visual Studio 2005\Projects\ColorPicked\ColorPicked\obj\Debug\ColorPicked.csproj.GenerateResource.Cache
