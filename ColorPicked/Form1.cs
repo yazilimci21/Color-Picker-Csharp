@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using System.Management;
 
 namespace ColorPicked
 {
@@ -28,6 +29,42 @@ namespace ColorPicked
 
         [DllImport("user32.dll")]
         static extern Int32 ReleaseDC(IntPtr hwnd, IntPtr hdc);
+        private static readonly Size MaxResolution = GetMaxResolution();
+        private static double AspectRatio = 0;
+
+        private static Size GetMaxResolution()
+        {
+            var scope = new ManagementScope();
+            var q = new ObjectQuery("SELECT * FROM CIM_VideoControllerResolution");
+
+            using (var searcher = new ManagementObjectSearcher(scope, q))
+            {
+                var results = searcher.Get();
+                int maxHResolution = 0;
+                int maxVResolution = 0;
+
+                foreach (var item in results)
+                {
+                    if (item.GetPropertyValue("HorizontalResolution") == null)
+                        continue;
+                    int h = int.Parse(item["HorizontalResolution"].ToString());
+                    int v = int.Parse(item["VerticalResolution"].ToString());
+                    if (h > maxHResolution || v > maxVResolution)
+                    {
+                        maxHResolution = h;
+                        maxVResolution = v;
+                    }
+                }
+                return new Size(maxHResolution, maxVResolution);
+            }
+        }
+
+        private uint GetPixelFind(IntPtr hdc, int nXPos, int nYPos)
+        {
+            nXPos = AspectRatio > 0 ? (int)(nXPos * AspectRatio):nXPos;
+            nYPos = AspectRatio > 0 ? (int)(nYPos * AspectRatio):nXPos;
+            return GetPixel(hdc, nXPos, nYPos);
+        }
 
         Lister MyColorList = new Lister();
         
@@ -39,6 +76,10 @@ namespace ColorPicked
         {
             InitializeComponent();
             picker = this;
+            if (Screen.PrimaryScreen.Bounds.Width < MaxResolution.Width)
+            {
+                AspectRatio = (double)MaxResolution.Width / (double)Screen.PrimaryScreen.Bounds.Width;
+            }
         }
 
         bool bul = false;
@@ -67,11 +108,11 @@ namespace ColorPicked
                     {
                         int curx = (MousePosition.X - this.Location.X) - label1.Location.X - 4;
                         int cury = (MousePosition.Y - this.Location.Y) - (label1.Location.Y + 23);
-                        pixel = GetPixel(hdc, curx, cury);
+                        pixel = GetPixelFind(hdc, curx, cury);
                     }
                     else
                     {
-                        pixel = GetPixel(hdc, MousePosition.X, MousePosition.Y);
+                        pixel = GetPixelFind(hdc, MousePosition.X, MousePosition.Y);
                     }
                     nowx = MousePosition.X;
                     nowy = MousePosition.Y;
@@ -102,6 +143,7 @@ namespace ColorPicked
             defhdc = label1.Handle;
             label1.Image = Panes.pane1;
             label1.Size = new Size(Panes.pane1.Size.Width, Panes.pane1.Size.Height);
+            comboBox1.SelectedIndex = 1;
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -112,7 +154,7 @@ namespace ColorPicked
                     defhdc = IntPtr.Zero;
                     label1.Image = null;
                     label1.Size = new Size(56, 39);
-                    this.Size = new Size(283, 159);
+                    this.Size = new Size(283, 170);
                     this.Location = new Point((System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width - 283), (System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height - 160));
                     break;
                 case 1:
@@ -129,7 +171,7 @@ namespace ColorPicked
                     label1.Image = Panes.pane2;
                     label1.Size = new Size(Panes.pane2.Size.Width, Panes.pane2.Size.Height);
                     this.Location = new Point(((System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width / 2)-250), ((System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height / 2)-200));
-                    this.Size = new Size(550, 400);
+                    this.Size = new Size(550, 420);
                     break;
             }
         }
